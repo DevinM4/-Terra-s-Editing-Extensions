@@ -1,5 +1,5 @@
 #define DEBUG_W (22 * GUI_GRID_W)
-#define DEBUG_H (32.2 * GUI_GRID_H)
+#define DEBUG_H (safeZoneH - (1 + (25-21.8)) * GUI_GRID_H)
 #define L_BORDER (0.5 * GUI_GRID_W)
 #define R_BORDER (21.5 * GUI_GRID_W)
 #define W_BORDER (R_BORDER - L_BORDER)
@@ -102,7 +102,6 @@ class TER_3den_RscCCGroup: RscControlsGroupNoScrollBars
 
 #define SEPERATOR_COUNT __EVAL(_seperatorCount)
 #define SEPERATOR_COUNT_ADD __EXEC(_seperatorCount = _seperatorCount +1)
-//#define GLUE(PART_ONE, PART_TWO) PART_ONE##PART_TWO
 #define SEPERATOR(NUMBER) class seperator##NUMBER: seperator1\
 				{\
 					y = CUR_Y;\
@@ -118,7 +117,7 @@ class TER_3den_debugConsole: RscControlsGroupNoScrollBars
 {
 	idc = 73040;
 	x = 40 * GUI_GRID_W + GUI_GRID_X;
-	y = safezoneY + 1 * GUI_GRID_H;
+	y = (21.8 * GUI_GRID_H + GUI_GRID_Y) - DEBUG_H;
 	w = DEBUG_W;
 	h = DEBUG_H;
 	ONLOAD(Debug)
@@ -165,7 +164,7 @@ class TER_3den_debugConsole: RscControlsGroupNoScrollBars
 					x = 0;
 					y = CUR_Y;
 					w = W_BORDER;
-					h = ADD_HEIGHT(1);
+					h = ADD_HEIGHT(1)
 					text = "Live Debug";
 				};
 				class seperator1: RscText
@@ -195,7 +194,7 @@ class TER_3den_debugConsole: RscControlsGroupNoScrollBars
 					x = W_BORDER-(0.25 * DEBUG_W);
 					y = CUR_Y;
 					w = 0.25 * DEBUG_W;
-					h = ADD_HEIGHT(1);
+					h = ADD_HEIGHT(1)
 				};
 				SEPERATOR(2)
 				class txt_teleport: txt_sideplayer
@@ -209,7 +208,7 @@ class TER_3den_debugConsole: RscControlsGroupNoScrollBars
 					x = W_BORDER-(1 * GUI_GRID_W);
 					y = CUR_Y;
 					w = GUI_GRID_W;
-					h = ADD_HEIGHT(1);
+					h = ADD_HEIGHT(1)
 				};
 				SEPERATOR(3)
 				class txt_unitIcons: txt_sideplayer
@@ -232,7 +231,13 @@ class TER_3den_debugConsole: RscControlsGroupNoScrollBars
 				{
 					idc = 7400;
 					y = CUR_Y;
-				};ADD_Y(1)
+				};
+				class cb_gridsGUIEditor: cb_teleport
+				{
+					idc = 7431;
+					y = CUR_Y;
+					x = W_BORDER-(2.1 * GUI_GRID_W);
+				}; ADD_Y(1)
 				SEPERATOR(5)
 				class txt_guigrid: txt_sideplayer
 				{
@@ -262,7 +267,7 @@ class TER_3den_debugConsole: RscControlsGroupNoScrollBars
 					x = 0;
 					y = CUR_Y;
 					w = W_BORDER;
-					h = ADD_HEIGHT(1);
+					h = ADD_HEIGHT(1)
 				};
 				SEPERATOR(7)
 				class btn_switchUnit: RscButtonMenu
@@ -272,7 +277,7 @@ class TER_3den_debugConsole: RscControlsGroupNoScrollBars
 					x = 0;
 					y = CUR_Y;
 					w = W_BORDER;
-					h = ADD_HEIGHT(1);
+					h = ADD_HEIGHT(1)
 				};
 			};
 		};
@@ -300,7 +305,7 @@ class TER_3den_debugConsole: RscControlsGroupNoScrollBars
 					x = W_BORDER-(1 * GUI_GRID_W);
 					y = CUR_Y;
 					w = 1 * GUI_GRID_W;
-					h = ADD_HEIGHT(1);
+					h = ADD_HEIGHT(1)
 					tooltip = "Create new watch field";
 				};
 				class grp_watchFields: RscControlsGroupNoScrollBars
@@ -346,7 +351,7 @@ class TER_3den_debugConsole: RscControlsGroupNoScrollBars
 					x = W_BORDER-(1 * GUI_GRID_W);
 					y = CUR_Y;
 					w = 1 * GUI_GRID_W;
-					h = ADD_HEIGHT(1);
+					h = ADD_HEIGHT(1)
 					tooltip = "Add custom command";
 				};
 				class grp_cc_commands: RscControlsGroupNoScrollBars
@@ -371,7 +376,7 @@ class TER_3den_debugConsole: RscControlsGroupNoScrollBars
 				{
 					font="PuristaLight";
 					tooltip = "Double click to activate. Press ""DEL"" to delete the selected entry";
-					text = "Recent Watch entries:";
+					text = "Saved Watch entries:";
 					x = 0;
 					y = CUR_Y;
 					w = W_BORDER/2;
@@ -383,7 +388,7 @@ class TER_3den_debugConsole: RscControlsGroupNoScrollBars
 					x = W_BORDER -(10 * GUI_GRID_W);
 					y = CUR_Y;
 					w = 10 * GUI_GRID_W;
-					h = ADD_HEIGHT(1);
+					h = ADD_HEIGHT(1)
 				};
 				class lb_watchHistory: RscListbox
 				{
@@ -391,17 +396,17 @@ class TER_3den_debugConsole: RscControlsGroupNoScrollBars
 					x = 0;
 					y = CUR_Y;
 					w = W_BORDER;
-					h = ADD_HEIGHT(4);
+					h = ADD_HEIGHT(4)
 				};
 				class btn_clearHistory: RscButtonMenu
 				{
 					idc = 7415;
-					text = "Clear history";
+					text = "Clear list";
 					colorBackground[] = DEEP_RED;
 					x = (W_BORDER/2)+ (0.1 * GUI_GRID_W);
 					y = CUR_Y;
 					w = (W_BORDER/2)- (0.1 * GUI_GRID_W);
-					h = ADD_HEIGHT(1);
+					h = ADD_HEIGHT(1)
 				};
 				class seperator1: RscText
 				{
@@ -428,7 +433,7 @@ class TER_3den_debugConsole: RscControlsGroupNoScrollBars
 					x = W_BORDER-(1 * GUI_GRID_W);
 					y = CUR_Y;
 					w = GUI_GRID_W;
-					h = ADD_HEIGHT(1);
+					h = ADD_HEIGHT(1)
 				};
 				class ed_targetDebug_command: TER_3den_RscEditCode
 				{
@@ -447,7 +452,7 @@ class TER_3den_debugConsole: RscControlsGroupNoScrollBars
 					x = W_BORDER -(1 * GUI_GRID_W);
 					y = CUR_Y;
 					w = 1 * GUI_GRID_W;
-					h = ADD_HEIGHT(1);
+					h = ADD_HEIGHT(1)
 				};
 				class lb_targetDebug_commands: RscListbox
 				{
@@ -455,7 +460,7 @@ class TER_3den_debugConsole: RscControlsGroupNoScrollBars
 					x = 0;
 					y = CUR_Y;
 					w = W_BORDER;
-					h = ADD_HEIGHT(3);
+					h = ADD_HEIGHT(3)
 				};
 				SEPERATOR(2)
 				class txt_links: RscText
@@ -484,7 +489,7 @@ class TER_3den_debugConsole: RscControlsGroupNoScrollBars
 					x = W_BORDER -(1 * GUI_GRID_W);
 					y = CUR_Y;
 					w = 1 * GUI_GRID_W;
-					h = ADD_HEIGHT(1);
+					h = ADD_HEIGHT(1)
 				};
 				class grp_links: RscControlsGroup
 				{
@@ -492,7 +497,7 @@ class TER_3den_debugConsole: RscControlsGroupNoScrollBars
 					x = 0;
 					y = CUR_Y;
 					w = W_BORDER;
-					h = ADD_HEIGHT(6);
+					h = ADD_HEIGHT(6)
 					class controls
 					{
 						class stxt_links: RscStructuredText
@@ -522,7 +527,7 @@ class TER_3den_debugConsole: RscControlsGroupNoScrollBars
 					x = 0;
 					y = CUR_Y;
 					w = W_BORDER/2;
-					h = ADD_HEIGHT(1);
+					h = ADD_HEIGHT(1)
 				};
 				class ed_unitWatch_search: RscEdit
 				{
@@ -530,7 +535,7 @@ class TER_3den_debugConsole: RscControlsGroupNoScrollBars
 					x = 0.1 * GUI_GRID_W;
 					y = CUR_Y;
 					w = W_BORDER -(0.3 * GUI_GRID_W);
-					h = ADD_HEIGHT(1);
+					h = ADD_HEIGHT(1)
 				};
 				class tv_unitWatch: RscTreeSearch
 				{
@@ -539,7 +544,7 @@ class TER_3den_debugConsole: RscControlsGroupNoScrollBars
 					x = 0;
 					y = CUR_Y;
 					w = W_BORDER;
-					h = ADD_HEIGHT(10);
+					h = ADD_HEIGHT(10)
 				};
 				class pic_liveFeed: RscPicture
 				{

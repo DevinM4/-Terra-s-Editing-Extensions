@@ -1,4 +1,13 @@
 #include "..\ctrls.inc"
+params ["_mode"];
+
+/////////////////////////////
+if (_mode == 1) then {// LOAD
+/////////////////////////////
+if (DEBUG_PAGE_5 getVariable ["pageInitialized",false]) exitWith {};
+DEBUG_PAGE_5 setVariable ["pageInitialized",true];
+
+//////////////////////////////// UNIT WATCH //////////////////////////////////////////////
 _removeArray = [];
 
 {
@@ -83,3 +92,7 @@ CB_LIVEFEEDLIVE ctrlAddEventHandler ["CheckedChanged",{
 		_liveFeedControl ctrlSetText ctrlText PIC_LIVEFEED;
 	};
 }];
+/////////////////
+} else {// UNLOAD
+/////////////////
+};

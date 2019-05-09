@@ -28,7 +28,7 @@ class TER_3den_RscFontList
 		};
 		class txt_hintControl: ctrlStructuredText
 		{
-			text = "Press STRG+C to copy font name"; //--- ToDo: Localize;
+			text = "Press CTRL+C to copy font name"; //--- ToDo: Localize;
 			x = 20 * UI_GRID_W + UI_GRID_X;
 			y = 26.1 * UI_GRID_H + UI_GRID_Y;
 			w = 12 * UI_GRID_W;

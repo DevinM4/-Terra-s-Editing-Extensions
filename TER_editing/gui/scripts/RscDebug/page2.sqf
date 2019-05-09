@@ -1,6 +1,18 @@
 #include "..\ctrls.inc"
-/* NON MOD
-*/
+params ["_mode"];
+/////////////////////////////
+if (_mode == 1) then {// LOAD
+/////////////////////////////
+if (DEBUG_PAGE_2 getVariable ["pageInitialized",false]) exitWith {
+	_inputControls = allControls ESC_DISPLAY select {ctrlIDC _x == 7490};
+	_inputControls apply {
+		_x setVariable ["TER_3den_isFocused",false];
+		0
+	};
+};
+DEBUG_PAGE_2 setVariable ["pageInitialized",true];
+
+//// More Watch Fields
 TER_fnc_createWatchFields = {
 	disableSerialization;
 
@@ -25,11 +37,11 @@ TER_fnc_createWatchFields = {
 				str ([] call compile _command);
 			};
 			_edOutput ctrlSetText _result;
-			_frame = diag_frameno;
 			if (_edInput getVariable ["TER_3den_isFocused",false]) then {
-				waitUntil {_frame < diag_frameno};//each frame when focused
+				waitUntil {uisleep 0.1; !(_edInput getVariable ["TER_3den_isFocused",false])};
 			} else {
-				waitUntil {_frame +10 < diag_frameno};// every 10th frame when not
+				_frame = diag_frameno;
+				waitUntil {_frame < diag_frameno};//each frame when unfocused
 			};
 		};
 	};
@@ -48,6 +60,10 @@ TER_fnc_createWatchFields = {
 
 		ctrlDelete _thisGroup;
 	}];
+
+	_inputCtrlList = DEBUG_PAGE_2 getVariable ["activeInputs",[]];
+	_inputCtrlList pushBackUnique _edInput;
+	ctrlSetFocus _edInput;
 	[_edInput,_edOutput,_btnDelete];
 };
 // NON MOD END
@@ -58,7 +74,7 @@ BTN_ADDWATCH ctrlAddEventHandler ["ButtonClick",{
 }];
 
 // watch group
-ESC_DISPLAY displayRemoveAllEventHandlers "MouseButtonDown"; // thanks @Larrow!
+//ESC_DISPLAY displayRemoveAllEventHandlers "MouseButtonDown"; // thanks @Larrow!
 // load previous commands
 {
 	_newControls = [] call TER_fnc_createWatchFields;
@@ -66,3 +82,13 @@ ESC_DISPLAY displayRemoveAllEventHandlers "MouseButtonDown"; // thanks @Larrow!
 	_edInput ctrlSetText _x;
 } forEach (profileNamespace getVariable ["TER_3den_watchCommands",[]]);
 // -> save commands (code at the beginning)
+/////////////////
+} else {// UNLOAD
+/////////////////
+_inputControls = allControls ESC_DISPLAY select {ctrlIDC _x == 7490};
+_inputControls apply {
+	_x setVariable ["TER_3den_isFocused",true];
+	0
+};
+
+};
